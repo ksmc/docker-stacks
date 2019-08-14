@@ -24,6 +24,7 @@ RUN apt-get update && apt-get -yq dist-upgrade \
     sudo \
     locales \
     fonts-liberation \
+    git \
     run-one \
  && rm -rf /var/lib/apt/lists/*
 
@@ -103,8 +104,7 @@ RUN conda install --quiet --yes 'tini=0.18.0' && \
 # files across image layers when the permissions change
 RUN conda install --quiet --yes \
     'notebook=6.0.0' \
-    'jupyterhub=1.0.0' \
-    'jupyterlab=1.0.4' && \
+    'jupyterhub=1.0.0' && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
@@ -112,6 +112,29 @@ RUN conda install --quiet --yes \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+# Get jupyterlab from github
+RUN mkdir /opt/conda/pkgs && \
+	cd /opt/conda/pkgs && \
+	git clone https://github.com/ksmc/jupyterlab.git && \
+	cd jupyterlab && \
+	git checkout v1.0.4 && \
+	pip install -e . && \
+	jlpm install
+	
+# Build jupyerlab from source
+ADD jupyterlab/jupyterlab /opt/conda/pkgs/jupyterlab/jupyterlab
+
+# Install extensions	
+RUN pip install jupyterlab_sql azure-storage-blob azure-storage-file azure-storage-queue && \
+	jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
+    jupyter lab build --source-build=True
+
+# Build notebook
+ADD notebook $HOME/notebook    
+RUN rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
+	cd $HOME/notebook && \
+	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
 
 EXPOSE 8888
 
@@ -127,7 +150,34 @@ COPY jupyter_notebook_config.py /etc/jupyter/
 
 # Fix permissions on /etc/jupyter as root
 USER root
-RUN fix-permissions /etc/jupyter/
+RUN fix-permissions /etc/jupyter/ && \
+	rm -r $HOME/notebook
+
+# Install all OS dependencies for fully functional notebook server
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    build-essential \
+    emacs \
+    inkscape \
+    jed \
+    libsm6 \
+    libxext-dev \
+    libxrender1 \
+    lmodern \
+    netcat \
+    pandoc \
+    python-dev \
+    texlive-fonts-extra \
+    texlive-fonts-recommended \
+    texlive-generic-recommended \
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-xetex \
+    tzdata \
+    unzip \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
+
+
