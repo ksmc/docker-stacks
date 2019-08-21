@@ -111,11 +111,8 @@ RUN conda install --quiet --yes \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-
-# Get jupyterlab from github
-RUN mkdir /opt/conda/pkgs && \
-	cd /opt/conda/pkgs && \
+    fix-permissions /home/$NB_USER && \
+    cd /opt/conda/lib/python3.7/site-packages && \
 	git clone https://github.com/ksmc/jupyterlab.git && \
 	cd jupyterlab && \
 	git checkout v1.0.4 && \
@@ -123,16 +120,18 @@ RUN mkdir /opt/conda/pkgs && \
 	jlpm install
 	
 # Build jupyerlab from source
-ADD jupyterlab/jupyterlab /opt/conda/pkgs/jupyterlab/jupyterlab
+ADD jupyterlab/jupyterlab /opt/conda/lib/python3.7/site-packages/jupyterlab/jupyterlab
+# Build notebook
+ADD notebook $HOME/notebook
 
 # Install extensions	
 RUN pip install jupyterlab_sql azure-storage-blob azure-storage-file azure-storage-queue && \
+	pip install --upgrade  jupyterlab-git && \
+	jupyter labextension install @jupyterlab/git --no-build && \
 	jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
-    jupyter lab build --source-build=True
-
-# Build notebook
-ADD notebook $HOME/notebook    
-RUN rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
+	jupyter serverextension enable jupyterlab_git --py --sys-prefix && \
+    jupyter lab build --source-build=True && \
+    rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
 	cd $HOME/notebook && \
 	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
 
@@ -151,6 +150,8 @@ COPY jupyter_notebook_config.py /etc/jupyter/
 # Fix permissions on /etc/jupyter as root
 USER root
 RUN fix-permissions /etc/jupyter/ && \
+	fix-permissions $CONDA_DIR && \
+	chown -R  jovyan $CONDA_DIR && \
 	rm -r $HOME/notebook
 
 # Install all OS dependencies for fully functional notebook server
@@ -175,6 +176,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     tzdata \
     unzip \
     nano \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Switch back to jovyan to avoid accidental container runs as root
