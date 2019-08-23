@@ -11,11 +11,14 @@ c = get_config()
 c.NotebookApp.ip = '0.0.0.0'
 c.NotebookApp.port = 8888
 c.NotebookApp.open_browser = False
-# c.NBNoVNC.geometry = '1024x768'
-# c.NBNoVNC.depth = 24
-# c.NBNoVNC.novnc_directory = "/usr/share/novnc"
-# c.NBNoVNC.vnc_command = "/usr/bin/vncserver :1 -geometry 1280x800 -depth 24 && tail -f /root/.vnc/*:1.log"
-c.NBNoVNC.websockify_command = "websockify --web /usr/share/novnc --heartbeat {heartbeat} {port} 0.0.0.0:5900"
+
+# NoVNC
+c.NBNoVNC.geometry = '1024x768'
+c.NBNoVNC.depth = 24
+c.NBNoVNC.novnc_directory = "/usr/share/novnc"
+c.NBNoVNC.vnc_command = "xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}"
+c.NBNoVNC.websockify_command = "websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:{vnc_port}"
+
 # https://github.com/jupyter/notebook/issues/3130
 c.FileContentsManager.delete_to_trash = False
 

@@ -6,14 +6,9 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 USER root
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ubuntu-desktop && \
-    apt-get install -y gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal && \
-    apt-get install -y tightvncserver && \
-    mkdir /root/.vnc
-
-RUN apt-get install -y --no-install-recommends \
+	apt-get install -y --no-install-recommends \
 	net-tools \
-	novnc websockify supervisor xinit && \
+	tightvncserver novnc websockify supervisor xinit && \
     rm -rf /var/lib/apt/lists/*
     
 USER $NB_USER
@@ -28,22 +23,15 @@ RUN pip install git+https://github.com/ryanlovett/nbnovnc && \
 
 	
 COPY jupyter_notebook_config.py /etc/jupyter/
+# COPY xinitrc /.xinitrc
 
-USER root
-
-ADD xstartup /root/.vnc/xstartup
-ADD passwd /root/.vnc/passwd
-
-RUN chmod 600 /root/.vnc/passwd
+# USER root
 
 RUN fix-permissions /etc/jupyter && \
-	fix-permissions /usr/bin/vncserver
+	fix-permissions $CONDA_DIR
 
-USER $NB_USER
-ENV USER=$NB_USER
-# CMD /usr/bin/vncserver :1 -geometry 1280x800 -depth 24 && tail -f /root/.vnc/*:1.log
+# XPOSE 8080
 
-EXPOSE 5901
 
 
 
