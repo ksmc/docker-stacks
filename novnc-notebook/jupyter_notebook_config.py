@@ -7,6 +7,9 @@ import os
 import errno
 import stat
 
+os.environ["USER"] = "jovyan"
+rfb_auth_file = os.path.join(os.environ['HOME'], '.vnc', 'passwd')
+
 c = get_config()
 c.NotebookApp.ip = '0.0.0.0'
 c.NotebookApp.port = 8888
@@ -16,8 +19,8 @@ c.NotebookApp.open_browser = False
 c.NBNoVNC.geometry = '1024x768'
 c.NBNoVNC.depth = 24
 c.NBNoVNC.novnc_directory = "/usr/share/novnc"
-c.NBNoVNC.vnc_command = "xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}"
-c.NBNoVNC.websockify_command = "websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:{vnc_port}"
+c.NBNoVNC.vnc_command = "xinit -- /usr/bin/Xtightvnc :1 -geometry 1024x768 -depth 24" #+ " -rfbauth " + rfb_auth_file
+c.NBNoVNC.websockify_command = "websockify -v --web /usr/share/novnc  8787 localhost:5901"
 
 # https://github.com/jupyter/notebook/issues/3130
 c.FileContentsManager.delete_to_trash = False
