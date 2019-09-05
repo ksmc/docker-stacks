@@ -96,64 +96,7 @@ RUN conda install --quiet --yes 'tini=0.18.0' && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Install Jupyter Notebook, Lab, and Hub
-# Generate a notebook server config
-# Cleanup temporary files
-# Correct permissions
-# Do all this in a single RUN command to avoid duplicating all of the
-# files across image layers when the permissions change
-RUN conda install --quiet --yes \
-    'notebook=6.0.0' \
-    'jupyterhub=1.0.0' && \
-    conda clean --all -f -y && \
-    npm cache clean --force && \
-    jupyter notebook --generate-config && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER && \
-    cd /opt/conda/lib/python3.7/site-packages && \
-	git clone https://github.com/ksmc/jupyterlab.git && \
-	cd jupyterlab && \
-	git checkout v1.0.4 && \
-	pip install -e . && \
-	jlpm install
-	
-# Build jupyerlab from source
-ADD jupyterlab/jupyterlab /opt/conda/lib/python3.7/site-packages/jupyterlab/jupyterlab
-# Build notebook
-ADD notebook $HOME/notebook
-
-# Install extensions	
-RUN pip install jupyterlab_sql azure-storage-blob azure-storage-file azure-storage-queue && \
-	pip install --upgrade  jupyterlab-git && \
-	jupyter labextension install @jupyterlab/git --no-build && \
-	jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
-	jupyter serverextension enable jupyterlab_git --py --sys-prefix && \
-    jupyter lab build --source-build=True && \
-    rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
-	cd $HOME/notebook && \
-	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
-
-EXPOSE 8888
-
-# Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
-
-# Add local files as late as possible to avoid cache busting
-COPY start.sh /usr/local/bin/
-COPY start-notebook.sh /usr/local/bin/
-COPY start-singleuser.sh /usr/local/bin/
-COPY jupyter_notebook_config.py /etc/jupyter/
-
-# Fix permissions on /etc/jupyter as root
 USER root
-RUN fix-permissions /etc/jupyter/ && \
-	fix-permissions $CONDA_DIR && \
-	chown -R  jovyan $CONDA_DIR && \
-	rm -r $HOME/notebook
-
 # Install all OS dependencies for fully functional notebook server
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     build-essential \
@@ -179,7 +122,64 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
+USER $NB_UID
+
+# Install Jupyter Notebook, Lab, and Hub
+# Generate a notebook server config
+# Cleanup temporary files
+# Correct permissions
+# Do all this in a single RUN command to avoid duplicating all of the
+# files across image layers when the permissions change
+RUN conda install --quiet --yes \
+    'notebook=6.0.1' \
+    'jupyterhub=1.0.0' \
+    'jupyterlab=1.0.10' && \
+    conda clean --all -f -y && \
+    npm cache clean --force && \
+    jupyter notebook --generate-config && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+	
+# Build jupyerlab from source
+ADD jupyterlab/node_modules/@jupyterlab/coreutils/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/coreutils/lib
+ADD jupyterlab/node_modules/@jupyterlab/filebrowser/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/filebrowser/lib
+ADD jupyterlab/jupyterlab/commands.py /opt/conda/lib/python3.7/site-packages/jupyterlab/commands.py
+ADD jupyterlab/jupyterlab/labapp.py /opt/conda/lib/python3.7/site-packages/jupyterlab/labapp.py
+
+# Build notebook
+ADD notebook $HOME/notebook
+
+# Install extensions	
+RUN jupyter lab build --source-build=True && \
+	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
+	cd $HOME/notebook && \
+	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
+
+EXPOSE 8888
+
+# Configure container startup
+ENTRYPOINT ["tini", "-g", "--"]
+CMD ["start-notebook.sh"]
+
+# Add local files as late as possible to avoid cache busting
+COPY start.sh /usr/local/bin/
+COPY start-notebook.sh /usr/local/bin/
+COPY start-singleuser.sh /usr/local/bin/
+COPY jupyter_notebook_config.py /etc/jupyter/
+
+# Fix permissions on /etc/jupyter as root
+USER root
+RUN fix-permissions /etc/jupyter/ && \
+	rm -r $HOME/notebook && \
+	fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER 
+
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
 
-
+# Install Azure storage API
+RUN pip install azure-storage-blob azure-storage-file azure-storage-queue

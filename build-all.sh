@@ -30,6 +30,11 @@ docker build -t mphanaenvacr.azurecr.io/rstudio-notebook:latest .
 docker push mphanaenvacr.azurecr.io/rstudio-notebook:latest
 cd ..
 
+#cd arcgis-notebook
+#docker build -t mphanaenvacr.azurecr.io/arcgis-notebook:latest .
+#docker push mphanaenvacr.azurecr.io/arcgis-notebook:latest
+#cd ..
+
 # drived from pyspark-notebook
 cd all-spark-notebook
 docker build -t mphanaenvacr.azurecr.io/all-spark-notebook:latest .
