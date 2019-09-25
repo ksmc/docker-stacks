@@ -57,11 +57,13 @@ RUN conda install --quiet --yes \
     'xlrd' && \
     pip install jupyterlab_sql==0.3.0 && \
     pip install jupyterlab-git==0.8.1 && \
+    pip install jupyterlab_iframe && \
     conda clean --all -f -y && \
     # Activate ipywidgets extension in the environment that runs the notebook server
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
     jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
 	jupyter serverextension enable jupyterlab_git --py --sys-prefix && \
+	jupyter serverextension enable jupyterlab_iframe --py  --sys-prefix && \
     # Also activate ipywidgets extension for JupyterLab
     # Check this URL for most recent compatibilities
     # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
@@ -70,6 +72,7 @@ RUN conda install --quiet --yes \
     jupyter labextension install @jupyterlab/dataregistry-extension --no-build && \
     jupyter labextension install jupyterlab_voyager --no-build && \
 	jupyter labextension install @jupyterlab/git --no-build && \
+	jupyter labextension install jupyterlab_iframe --no-build && \
     jupyter lab build --source-build=True && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \

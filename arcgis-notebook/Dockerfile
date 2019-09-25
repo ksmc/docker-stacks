@@ -48,10 +48,10 @@ RUN conda install --quiet --yes \
     fix-permissions /home/$NB_USER
 
 # Install Arcgis dependencies
-RUN pip install arcgis==1.6.0 && \
+RUN conda install -c esri arcgis=1.6.0 && \
 	conda clean --all -f -y && \
-    jupyter nbextension enable --py arcgis --sys-prefix && \
-	jupyter labextension install arcgis-map-ipywidget@1.6.0 --no-build && \
+    jupyter nbextension enable arcgis --py --sys-prefix && \
+ 	jupyter labextension install arcgis-map-ipywidget@1.6.0 --no-build && \
 	jupyter lab build --source-build=True && \
 	npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
