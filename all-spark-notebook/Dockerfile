@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=mphanaenvacr.azurecr.io/pyspark-notebook:latest
+ARG BASE_CONTAINER=sandboxmphanaenvacr.azurecr.io/pyspark-notebook:latest
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
