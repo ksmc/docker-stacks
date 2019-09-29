@@ -16,4 +16,12 @@ RUN apt-get update && \
     rm /tmp/rstudio.deb && \
     apt-get clean
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
+
+RUN mkdir /etc/rstudio/user-settings -p
+ADD user-settings /etc/rstudio/user-settings/user-settings
+ADD config-rstudio.sh /etc/rstudio/config-rstudio.sh
+RUN fix-permissions /etc/rstudio/
+
 USER $NB_USER
+
+
