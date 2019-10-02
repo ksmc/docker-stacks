@@ -10,7 +10,13 @@ RUN conda install --quiet --yes \
     'tensorflow=1.13*' \
     'keras=2.2*' && \
     conda install pytorch torchvision cudatoolkit=10.0 -c pytorch && \
-    pip install jupyter-tensorboard && \
+    conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+RUN pip install --pre jupyter-tensorboard && \
+	jupyter serverextension enable jupyter_tensorboard --py --sys-prefix && \
+	jupyter nbextension enable jupyter_tensorboard --py --sys-prefix && \
     jupyter labextension install jupyterlab_tensorboard --no-build && \
     jupyter lab build --source-build=True && \
     conda clean --all -f -y && \
