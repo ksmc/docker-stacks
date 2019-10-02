@@ -9,6 +9,7 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 RUN conda install --quiet --yes \
     'tensorflow=1.13*' \
     'keras=2.2*' && \
+    conda install pytorch torchvision cudatoolkit=10.0 -c pytorch && \
     pip install jupyter-tensorboard && \
     jupyter labextension install jupyterlab_tensorboard --no-build && \
     jupyter lab build --source-build=True && \
