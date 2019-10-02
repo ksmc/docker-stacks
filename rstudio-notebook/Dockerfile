@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=sandboxmphanaenvacr.azurecr.io/r-notebook:latest
+ARG BASE_CONTAINER
 FROM $BASE_CONTAINER
 
 # install nbrsessionproxy extension
