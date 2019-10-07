@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=mphanaenvacr.azurecr.io/scipy-notebook:latest
+ARG BASE_CONTAINER
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
@@ -47,13 +47,11 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Install Arcgis Mapbox Leaflet dependencies and their jupyterlab extension
+# Install Arcgis dependencies
 RUN conda install -c esri arcgis=1.6.0 && \
-	conda install -c conda-forge ipyleaflet mapboxgl && \
 	conda clean --all -f -y && \
     jupyter nbextension enable arcgis --py --sys-prefix && \
  	jupyter labextension install arcgis-map-ipywidget@1.6.0 --no-build && \
- 	jupyter labextension install jupyter-leaflet --no-build && \
 	jupyter lab build --source-build=True && \
 	npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
@@ -61,5 +59,3 @@ RUN conda install -c esri arcgis=1.6.0 && \
     rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
-

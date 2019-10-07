@@ -1,6 +1,6 @@
 [![docker pulls](https://img.shields.io/docker/pulls/jupyter/datascience-notebook.svg)](https://hub.docker.com/r/jupyter/datascience-notebook/) [![docker stars](https://img.shields.io/docker/stars/jupyter/datascience-notebook.svg)](https://hub.docker.com/r/jupyter/datascience-notebook/) [![image metadata](https://images.microbadger.com/badges/image/jupyter/datascience-notebook.svg)](https://microbadger.com/images/jupyter/datascience-notebook "jupyter/datascience-notebook image metadata")
 
-# Jupyter Notebook Data Science Stack
+# Jupyter Notebook SAS Stack
 
 Please visit the documentation site for help using and contributing to this image and others.
 
