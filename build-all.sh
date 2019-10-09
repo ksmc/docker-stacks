@@ -37,8 +37,8 @@ docker push mphjphk8sacr.azurecr.io/tensorflow-notebook:latest
 cd ..
 
 cd pyspark-notebook
-docker build -t sandboxmphanaenvacr.azurecr.io/pyspark-notebook:latest --build-arg BASE_CONTAINER=mphjphk8sacr.azurecr.io/scipy-notebook:latest .
-docker push sandboxmphanaenvacr.azurecr.io/pyspark-notebook:latest
+docker build -t mphjphk8sacr.azurecr.io/pyspark-notebook:latest --build-arg BASE_CONTAINER=mphjphk8sacr.azurecr.io/scipy-notebook:latest .
+docker push mphjphk8sacr.azurecr.io/pyspark-notebook:latest
 cd ..
 
 cd rstudio-notebook
@@ -54,6 +54,11 @@ cd ..
 cd sas-notebook
 docker build -t mphjphk8sacr.azurecr.io/sas-notebook:latest --build-arg BASE_CONTAINER=mphjphk8sacr.azurecr.io/scipy-notebook:latest .
 docker push mphjphk8sacr.azurecr.io/sas-notebook:latest
+cd ..
+
+cd theia-notebook
+docker build -t mphjphk8sacr.azurecr.io/theia-notebook:latest --build-arg BASE_CONTAINER=mphjphk8sacr.azurecr.io/scipy-notebook:latest .
+docker push mphjphk8sacr.azurecr.io/theia-notebook:latest
 cd ..
 
 # drived from pyspark-notebook
