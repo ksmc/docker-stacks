@@ -18,7 +18,8 @@ def setup_pgadmin():
             'USE_LOCAL_GIT': 'true'
         },
         'timeout': 20,
-        'absolute_url': True,
+#         'absolute_url': True,
+        'mappath': {'/':'/browser'},
         'launcher_entry': {
             'title': 'PgAdmin IDE',
             'icon_path': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icons', 'theia.svg')

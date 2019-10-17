@@ -34,7 +34,7 @@ RUN chown -R jovyan:users /opt/conda/pdadmin4/jupyter-pgadmin-proxy && \
 
 USER $NB_USER 	
 RUN python /opt/conda/lib/python3.7/site-packages/pgadmin4/setup.py && \
-#	printf 'zjia@ksmconsulting.com\nSimple123!\nSimple123!\n' |  python /opt/conda/lib/python3.7/site-packages/pgadmin4/setup.py && \
+# RUN	printf 'zjia@ksmconsulting.com\nSimple123!\nSimple123!\n' |  python /opt/conda/lib/python3.7/site-packages/pgadmin4/setup.py && \
 	fix-permissions $CONDA_DIR && \
 	fix-permissions /home/$NB_USER
 

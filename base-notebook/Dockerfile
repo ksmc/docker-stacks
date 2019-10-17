@@ -132,7 +132,7 @@ USER $NB_UID
 # files across image layers when the permissions change
 RUN conda install --quiet --yes \
     'notebook=6.0.1' \
-    'jupyterhub=1.0.0' \
+    'jupyterhub=0.9.6' \
     'jupyterlab=1.0.10' && \
     conda clean --all -f -y && \
     npm cache clean --force && \
@@ -147,6 +147,14 @@ ADD jupyterlab/node_modules/@jupyterlab/coreutils/lib /opt/conda/lib/python3.7/s
 ADD jupyterlab/node_modules/@jupyterlab/filebrowser/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/filebrowser/lib
 ADD jupyterlab/jupyterlab/commands.py /opt/conda/lib/python3.7/site-packages/jupyterlab/commands.py
 ADD jupyterlab/jupyterlab/labapp.py /opt/conda/lib/python3.7/site-packages/jupyterlab/labapp.py
+
+# Build jupyerhub from source
+ADD jupyterhub/share/jupyterhub/static/images/mph-logo.svg /opt/conda/share/jupyterhub/static/images/mph-logo.svg
+ADD jupyterhub/share/jupyterhub/static/css/style.min.css /opt/conda/share/jupyterhub/static/css/style.min.css
+ADD jupyterhub/share/jupyterhub/templates/spawn.html /opt/conda/share/jupyterhub/templates/spawn.html
+ADD jupyterhub/share/jupyterhub/templates/page.html /opt/conda/share/jupyterhub/templates/page.html
+ADD jupyterhub/jupyterhub/orm.py /opt/conda/lib/python3.7/site-packages/jupyterhub/orm.py
+#ADD jupyterhub/jupyterhub/user.py /opt/conda/lib/python3.7/site-packages/jupyterhub/user.py
 
 # Build notebook
 ADD notebook $HOME/notebook

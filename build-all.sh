@@ -25,6 +25,11 @@ docker build -t mphanaenvacr.azurecr.io/scipy-notebook:latest --build-arg BASE_C
 docker push mphanaenvacr.azurecr.io/scipy-notebook:latest
 cd ..
 
+cd openrefine-notebook
+docker build -t mphanaenvacr.azurecr.io/openrefine-notebook:latest --build-arg BASE_CONTAINER=mphanaenvacr.azurecr.io/base-notebook:latest .
+docker push mphanaenvacr.azurecr.io/openrefine-notebook:latest
+cd ..
+
 # drived from scipy-notebook & r-notebook
 cd datascience-notebook
 docker build -t mphanaenvacr.azurecr.io/datascience-notebook:latest --build-arg BASE_CONTAINER=mphanaenvacr.azurecr.io/scipy-notebook:latest .

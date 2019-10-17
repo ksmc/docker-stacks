@@ -8,18 +8,18 @@ import errno
 import stat
 
 os.environ["USER"] = "jovyan"
-rfb_auth_file = os.path.join(os.environ['HOME'], '.vnc', 'passwd')
+# rfb_auth_file = os.path.join(os.environ['HOME'], '.vnc', 'passwd')
 
 c = get_config()
 c.NotebookApp.ip = '0.0.0.0'
 c.NotebookApp.port = 8888
-c.NotebookApp.open_browser = False
+c.NotebookApp.open_browser = True
 
 # NoVNC
 c.NBNoVNC.geometry = '1024x600'
 c.NBNoVNC.depth = 24
 c.NBNoVNC.novnc_directory = "/usr/share/novnc"
-c.NBNoVNC.vnc_command = "xinit -- /usr/bin/Xtightvnc :1 -geometry 1024x600 -depth 24" # + " -rfbauth " + rfb_auth_file
+c.NBNoVNC.vnc_command = "xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}" # + " -rfbauth " + rfb_auth_file
 c.NBNoVNC.websockify_command = "websockify -v --web /usr/share/novnc {port} localhost:{vnc_port}"
 
 # https://github.com/jupyter/notebook/issues/3130
