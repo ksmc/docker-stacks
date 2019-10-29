@@ -54,7 +54,8 @@ RUN conda install --quiet --yes \
     'statsmodels=0.10*' \
     'sympy=1.4*' \
     'vincent=0.4.*' \
-    'xlrd' && \
+    'xlrd' \
+    'ipython-sql' && \
     pip install jupyterlab_sql==0.3.0 && \
     pip install jupyterlab-git==0.8.1 && \
     pip install jupyterlab_iframe && \

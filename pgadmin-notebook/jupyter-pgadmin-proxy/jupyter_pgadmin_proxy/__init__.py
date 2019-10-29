@@ -17,8 +17,8 @@ def setup_pgadmin():
         'environment': {
             'USE_LOCAL_GIT': 'true'
         },
-        'timeout': 20,
-#         'absolute_url': True,
+        'timeout': 120,
+        'absolute_url': True,
         'mappath': {'/':'/browser'},
         'launcher_entry': {
             'title': 'PgAdmin IDE',

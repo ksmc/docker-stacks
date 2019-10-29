@@ -21,6 +21,10 @@
       "@theia/terminal": "latest",
       "@theia/textmate-grammars": "latest",
       "@theia/typescript": "latest",
+      "@theia/vscode-builtin-sql": "latest",
+      "@theia/plugin": "latest",
+      "@theia/plugin-ext": "latest",
+      "@theia/plugin-ext-vscode": "latest",
       "typescript": "latest",
       "yarn": "^1.12.3"
   },
