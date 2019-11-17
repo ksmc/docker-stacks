@@ -47,11 +47,14 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Install Arcgis dependencies
+# Install Arcgis Mapbox Leaflet dependencies and their jupyterlab extension
 RUN conda install -c esri arcgis=1.6.0 && \
+	conda install -c conda-forge ipyleaflet mapboxgl geopandas && \
+	pip install vt2geojson descartes && \
 	conda clean --all -f -y && \
     jupyter nbextension enable arcgis --py --sys-prefix && \
  	jupyter labextension install arcgis-map-ipywidget@1.6.0 --no-build && \
+ 	jupyter labextension install jupyter-leaflet --no-build && \
 	jupyter lab build --source-build=True && \
 	npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \

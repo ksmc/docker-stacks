@@ -87,4 +87,18 @@ ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions /home/$NB_USER
 
+# Install plotly and colorlover 
+RUN conda install -c plotly plotly=4.1.0 && \
+	conda install -c plotly plotly-geo=1.0.0 && \
+	conda install -c conda-forge colorlover && \
+	jupyter labextension install @jupyterlab/plotly-extension --no-build && \
+	jupyter labextension install jupyterlab-chart-editor --no-build && \ 
+	jupyter lab build --source-build=True && \
+	npm cache clean --force && \
+	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
 USER $NB_UID

@@ -4,6 +4,7 @@ USER root
 RUN pip3 install --no-cache-dir -U \
     PyJWT
 
+COPY jupyterhub/share/jupyterhub/static/images/hhs-logo.png /usr/local/share/jupyterhub/static/images/hhs-logo.png
 COPY jupyterhub/share/jupyterhub/static/images/mph-logo.svg /usr/local/share/jupyterhub/static/images/mph-logo.svg
 COPY jupyterhub/share/jupyterhub/static/css/style.min.css /usr/local/share/jupyterhub/static/css/style.min.css
 #COPY jupyterhub/share/jupyterhub/static/js/home.js /usr/local/share/jupyterhub/static/js/home.js
