@@ -1,0 +1,77 @@
+{% extends "base/app_base.html" %} 
+{% block content %}
+
+
+<div id="loss_manager_header" class="page-header">
+	<h1>
+		Applicant Specification <small>PERSON UID: {{ obj.person_uid }}</small>
+	</h1>
+</div>
+<div class="row">
+	<div class="col-xs-6 col-md-6">
+		<div id="outcome_label" class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">fm_tfc / fm_gross_need / offer amount/ Unmet Need </h3>
+			</div>
+			<div id="outcome_body" class="panel-body">${{obj.fm_tfc}} / ${{obj.fm_gross_need}} / ${{obj.total_offer_amount}} / ${{obj.fm_unmet_need}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Gov Loan / Private Loan / Gov Award</h3>
+			</div>
+			<div class="panel-body">${{obj.fdl_sub_unsub_loan_amount}} / ${{obj.parent_priv_loan_amount}} / ${{obj.award_gov_amount}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">UIndy Scholarship / Scholarship Tier</h3>
+			</div>
+			<div class="panel-body">${{obj.award_inst_amount}} / {{obj.merit_grant_tier}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">TIME OF FAFSA FILED</h3>
+			</div>
+			<div class="panel-body">{{obj.days_to_enrollment}} Days Before Enrollment</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">ATHLETE</h3>
+			</div>
+			<div class="panel-body">{{obj.sport_ind}}</div>
+		</div>
+
+	</div>
+	<div class="col-xs-6 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">SECONDARY SCHOOL PERCENTILE</h3>
+			</div>
+			<div class="panel-body">{{obj.secondary_school_percentile}}%</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">SECONDARY SCHOOL GPA</h3>
+			</div>
+			<div class="panel-body">{{obj.secondary_school_reported_gpa}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">WHETHER UINDY IS IN TOP3 CHOICES</h3>
+			</div>
+			<div class="panel-body">{{obj.priority_uindy_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">FAMILY SIZE</h3>
+			</div>
+			<div class="panel-body">{{obj.family_size}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">HAS CHILDREN TO SUPPORT</h3>
+			</div>
+			<div class="panel-body">{{obj.support_children_ind}}</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

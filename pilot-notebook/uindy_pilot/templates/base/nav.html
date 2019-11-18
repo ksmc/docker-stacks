@@ -1,0 +1,19 @@
+
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul id="nav_tab" class="nav navbar-nav">
+				<li role="presentation"><a href="{% url 'home' %}">Home</a></li>
+				<li role="presentation"><a
+					href="{% url 'intervention_manager:pilot_list' %}">Intervention Pilot</a></li>
+				<li role="presentation"><a
+					href="{% url 'intervention_manager:prediction_list' %}">Prediction</a></li>
+				<li role="presentation">
+						<a >{% include "base/message_tag.html" %}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

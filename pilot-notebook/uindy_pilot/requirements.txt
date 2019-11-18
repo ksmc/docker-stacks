@@ -1,0 +1,4 @@
+Django==1.9.7
+django-cors-headers==1.2.2
+django-crispy-forms==1.6.0
+django-registration-redux==1.4
