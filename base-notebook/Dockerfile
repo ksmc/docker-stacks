@@ -143,29 +143,29 @@ RUN conda install --quiet --yes \
     fix-permissions /home/$NB_USER
 	
 # Build jupyerlab from source
-ADD jupyterlab/node_modules/@jupyterlab/coreutils/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/coreutils/lib
-ADD jupyterlab/node_modules/@jupyterlab/filebrowser/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/filebrowser/lib
-ADD jupyterlab/jupyterlab/commands.py /opt/conda/lib/python3.7/site-packages/jupyterlab/commands.py
-ADD jupyterlab/jupyterlab/labapp.py /opt/conda/lib/python3.7/site-packages/jupyterlab/labapp.py
+#ADD jupyterlab/node_modules/@jupyterlab/coreutils/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/coreutils/lib
+#ADD jupyterlab/node_modules/@jupyterlab/filebrowser/lib /opt/conda/lib/python3.7/site-packages/jupyterlab/staging/node_modules/@jupyterlab/filebrowser/lib
+#ADD jupyterlab/jupyterlab/commands.py /opt/conda/lib/python3.7/site-packages/jupyterlab/commands.py
+#ADD jupyterlab/jupyterlab/labapp.py /opt/conda/lib/python3.7/site-packages/jupyterlab/labapp.py
 
 # Build jupyerhub from source
 ADD jupyterhub/share/jupyterhub/static/images/mph-logo.svg /opt/conda/share/jupyterhub/static/images/mph-logo.svg
-ADD jupyterhub/share/jupyterhub/static/css/style.min.css /opt/conda/share/jupyterhub/static/css/style.min.css
+#ADD jupyterhub/share/jupyterhub/static/css/style.min.css /opt/conda/share/jupyterhub/static/css/style.min.css
 ADD jupyterhub/share/jupyterhub/templates/spawn.html /opt/conda/share/jupyterhub/templates/spawn.html
 ADD jupyterhub/share/jupyterhub/templates/page.html /opt/conda/share/jupyterhub/templates/page.html
 ADD jupyterhub/jupyterhub/orm.py /opt/conda/lib/python3.7/site-packages/jupyterhub/orm.py
 #ADD jupyterhub/jupyterhub/user.py /opt/conda/lib/python3.7/site-packages/jupyterhub/user.py
 
 # Build notebook
-ADD notebook $HOME/notebook
+#ADD notebook $HOME/notebook
 
 # Install extensions	
-RUN jupyter lab build --source-build=True && \
-	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
-	cd $HOME/notebook && \
-	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
+#RUN jupyter lab build --source-build=True && \
+#	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+#    rm -rf /home/$NB_USER/.cache/yarn && \
+#    rm -r /opt/conda/lib/python3.7/site-packages/notebook/* && \
+#	cd $HOME/notebook && \
+#	cp -r * /opt/conda/lib/python3.7/site-packages/notebook/
 
 EXPOSE 8888
 
@@ -182,7 +182,7 @@ COPY jupyter_notebook_config.py /etc/jupyter/
 # Fix permissions on /etc/jupyter as root
 USER root
 RUN fix-permissions /etc/jupyter/ && \
-	rm -r $HOME/notebook && \
+#	rm -r $HOME/notebook && \
 	fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER 
 
