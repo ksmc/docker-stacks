@@ -74,7 +74,7 @@ RUN conda install --quiet --yes \
     jupyter labextension install jupyterlab_voyager --no-build && \
 	jupyter labextension install @jupyterlab/git --no-build && \
 	jupyter labextension install jupyterlab_iframe --no-build && \
-    jupyter lab build --source-build=True && \
+    jupyter lab build && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
@@ -93,7 +93,7 @@ RUN conda install -c plotly plotly=4.1.0 && \
 	conda install -c conda-forge colorlover && \
 	jupyter labextension install @jupyterlab/plotly-extension --no-build && \
 	jupyter labextension install jupyterlab-chart-editor --no-build && \ 
-	jupyter lab build --source-build=True && \
+	jupyter lab build && \
 	npm cache clean --force && \
 	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \

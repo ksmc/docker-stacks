@@ -18,7 +18,7 @@ RUN pip install --pre jupyter-tensorboard && \
 	jupyter serverextension enable jupyter_tensorboard --py --sys-prefix && \
 	jupyter nbextension enable jupyter_tensorboard --py --sys-prefix && \
     jupyter labextension install jupyterlab_tensorboard --no-build && \
-    jupyter lab build --source-build=True && \
+    jupyter lab build && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \

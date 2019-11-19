@@ -55,7 +55,7 @@ RUN conda install -c esri arcgis=1.6.0 && \
     jupyter nbextension enable arcgis --py --sys-prefix && \
  	jupyter labextension install arcgis-map-ipywidget@1.6.0 --no-build && \
  	jupyter labextension install jupyter-leaflet --no-build && \
-	jupyter lab build --source-build=True && \
+	jupyter lab build && \
 	npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
