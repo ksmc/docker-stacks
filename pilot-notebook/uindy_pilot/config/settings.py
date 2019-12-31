@@ -29,7 +29,7 @@ SECRET_KEY = 'wk^1f%$lpwd+s2q$@&-_=xkj&b8u@n3rsun5@p0z7an-vc-(9*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ksmcsftp.ksmconsulting.com']
+ALLOWED_HOSTS = ['ksmcsftp.ksmconsulting.com','uindy-analyticshub.eastus2.cloudapp.azure.com']
 MANAGERS = ADMINS
 
 # Application definition
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'crispy_forms',
     ## Self-defined ########
-    'intervention_manager'
+    'intervention_manager',
+    'intervention_report'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -123,8 +124,6 @@ CORS_ORIGIN_WHITELIST = (
     'uindyanalyticshub.eastus2.cloudapp.azure.com'
 )
 
-CORS_URLS_REGEX = r'^/api/.*$'
-
 CORS_PREFLIGHT_MAX_AGE = 300000
 
 # Internationalization
@@ -151,20 +150,21 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# STATIC_URL = 'https://cdn-uindy-pilot-webassest.azureedge.net/pilot-web-assest/static/'
 STATIC_URL = '/static/'
 
 # Where static files uploaded to. Usually a server(cloud) space
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_home')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 # Where static files comes from 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
-#     os.path.join(BASE_DIR, 'static_home'),
+#     'https://cdn-uindy-pilot-webassest.azureedge.net/pilot-web-assest/static/'
     ]
 
 # Media Uploaded files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_home")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 
 # Email Setting (Temp)
 EMAIL_USE_TLS = True

@@ -1,45 +1,56 @@
 {% extends "base/app_base.html" %} {% block content %}
 
 <div id="loss_manager_header" class="page-header">
-	<h1>Intervention Pilot Pool</h1>
+	<h1>Intervention Candidate Pool</h1>
 </div>
+<form method="GET" action="">
 <div id="search_bar" class="row">
 	<div class="col-xs-6 col-md-6">
-		<form method="GET" action="">
-			<input name="filter" type="text" placeholder="Search Applicant"
+		<input name="filter" type="text" placeholder="Search with SQL. i.e. AID_PACKAGE_COMPLETE_IND>0"
 				value='{{request.GET.filter}}' class="form-control"/>
 	</div>
+	
 	<div class="col-xs-6 col-md-6">
 		<input id="button" class="btn btn-primary" type="submit"
 			value="Search" /> 
-		</form>
 	</div>
 </div>
+</form>
 <div class="row">
 	<div class="table-responsive">
 		<table class="table table-striped table-condensed ">
 			<tr>
-				<th class="info">PERSON_UID</th>
-				<th>PRE LIKELIHOOD</th>
-				<th>POST LIKELIHOOD</th>
-				<th>ADDITIONAL GRANT</th>
-				<th>DISCOUNT RATE</th>
-				<th>NET TUITION REVENUE</th>
-				<th>ADD TIME</th>
-				<th>NOTE UPDATE</th>
+				<th>PERSON_UID</th>
+				<th>SEQ_ID</th>
+				<th>FINAID_APPLICANT_IND</th>
+				<th>FAFSA_FILED_IND</th>
+				<th>AID_PACKAGE_COMPLETE_IND</th>
+				<th>ADDITIONAL_GRANT</th>
+				<th>LIKELIHOOD</th>
+				<th>TUITION_DISCOUNT</th>
+				<th>TUITION_NET_REVENUE</th>
+				<th>TIME_ADDED</th>
+				<th>TIME_UPDATED</th>
 				<th>NOTE</th>
+				<th class="info">Action</th>
 			</tr>
 			{% for obj in objects %}
 			<tr class="active">
-				<td class="info"><a href='{{ obj.get_absolute_url }}'>{{obj.applicant_pilot.person_uid}}</a></td>
-				<td class="active">{{obj.applicant_pilot.likelihood_before}}%</td>
-				<td class="active">{{obj.applicant_pilot.likelihood_after}}%</td>
+				<td class="active">{{obj.applicant_pilot.person_uid}}</td>
+				<td class="active">{{obj.applicant_pilot.seq_id}}</td>
+				<td class="active">{{obj.applicant_pilot.finaid_applicant_ind}}</td>
+				<td class="active">{{obj.applicant_pilot.fafsa_filed_ind}}</td>
+				<td class="active">{{obj.applicant_pilot.aid_package_complete_ind}}</td>
 				<td class="active">${{obj.applicant_pilot.additional_grant}}</td>
+				<td class="active">{{obj.applicant_pilot.likelihood_after}}%</td>
 				<td class="active">{{obj.applicant_pilot.discount_rate}}%</td>
 				<td class="active">${{obj.applicant_pilot.net_revenue}}</td>
 				<td class="active">{{obj.applicant_pilot.add_time}}</td>
 				<td class="active">{{obj.update_time_note}}</td>
 				<td class="active">{{obj.note}}</td>
+				<td class="info">
+					<a href="{% url 'intervention_manager:pilot_update' obj.id %}"> Review </a>
+				</td>
 			</tr>
 			{% endfor %}
 		</table>

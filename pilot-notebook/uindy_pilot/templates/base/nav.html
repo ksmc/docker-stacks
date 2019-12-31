@@ -7,12 +7,13 @@
 			<ul id="nav_tab" class="nav navbar-nav">
 				<li role="presentation"><a href="{% url 'home' %}">Home</a></li>
 				<li role="presentation"><a
-					href="{% url 'intervention_manager:pilot_list' %}">Intervention Pilot</a></li>
-				<li role="presentation"><a
-					href="{% url 'intervention_manager:prediction_list' %}">Prediction</a></li>
-				<li role="presentation">
+					href="{% url 'intervention_manager:pilot_list' %}">Pilot Intervention</a>
 						<a >{% include "base/message_tag.html" %}</a>
 				</li>
+				<li role="presentation"><a
+					href="{% url 'intervention_report:report_list' %}">Pilot Report</a>
+				</li>
+				<li role="presentation"><a href="https://uindy-analyticshub.eastus2.cloudapp.azure.com/hub/home">Logout</a></li>
 			</ul>
 		</div>
 	</div>

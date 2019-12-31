@@ -11,11 +11,13 @@ def setup_pilot():
     # Make sure theia is in $PATH
     def _pilot_command(port):
         return ['python','/home/jovyan/uindy_pilot/manage.py', 'runserver', '0.0.0.0:{}'.format(str(port))]
- 
+    def _mappath(path):
+        return path
     return {
         'command': _pilot_command,
-#         'timeout': 120,
-#         'absolute_url': True,
+        'timeout': 120,
+        'absolute_url': True,
+        'mappath':_mappath,
         'launcher_entry': {
             'title': 'Open UIndy Pilot Site'
         }

@@ -9,7 +9,7 @@ from django.template.defaultfilters import default
 
 ###################### DB TABLES ################################
 class Applicant(models.Model):
-    person_uid = models.TextField(blank=True, null=True)
+    person_uid = models.BigIntegerField(blank=True, null=True) 
     academic_year = models.BigIntegerField(blank=True, null=True)
     academic_period = models.TextField(blank=True, null=True)
     aid_year = models.TextField(blank=True, null=True)
@@ -47,7 +47,7 @@ class Applicant(models.Model):
     award_gov_amount = models.FloatField(blank=True, null=True)
     family_total_indebtedness_amount = models.FloatField(blank=True, null=True)
     fdl_sub_unsub_loan_amount = models.FloatField(blank=True, null=True)
-    parent_priv_loan_amount = models.FloatField(blank=True, null=True)
+    priv_loan_amount = models.FloatField(blank=True, null=True)
     sport_activity = models.TextField(blank=True, null=True)
     sport_ind = models.FloatField(blank=True, null=True)
     fm_tfc = models.FloatField(blank=True, null=True)
@@ -80,17 +80,15 @@ class Applicant(models.Model):
     secondary_school_distance = models.FloatField(blank=True, null=True)
     secondary_school_urban_centric_locale = models.TextField(blank=True, null=True)
     secondary_school_type = models.TextField(blank=True, null=True)
-    visit_count = models.FloatField(blank=True, null=True)
-    is_score = models.FloatField(blank=True, null=True)
     test_score_a05 = models.FloatField(blank=True, null=True)
     test_score_s10 = models.FloatField(blank=True, null=True)
     test_score_satt = models.FloatField(blank=True, null=True)
-    transfer_out_ind = models.BigIntegerField(blank=True, null=True)
     ftft_enrolled_ind = models.BigIntegerField(blank=True, null=True)
     merit_grant_scale = models.FloatField(blank=True, null=True)
     merit_grant_tier = models.TextField(blank=True, null=True)
     tag = models.BigIntegerField(blank=True, null=True)
     studentno = models.TextField(blank=True, null=True)
+    seq_id = models.BigIntegerField(blank=True, null=True)
     id = models.TextField(primary_key=True)
     
     class Meta:
@@ -99,7 +97,9 @@ class Applicant(models.Model):
 
 class ApplicantPilot(models.Model):
     id = models.TextField(primary_key=True)
-    person_uid = models.TextField(blank=True, null=True)  
+    seq_id = models.BigIntegerField(blank=True, null=True)
+    tag = models.BigIntegerField(blank=True, null=True)
+    person_uid = models.BigIntegerField(blank=True, null=True) 
     net_revenue = models.FloatField(blank=True, null=True)  
     optimal_step = models.FloatField(blank=True, null=True)  
     discount_rate = models.FloatField(blank=True, null=True)  
@@ -110,10 +110,21 @@ class ApplicantPilot(models.Model):
     additional_grant = models.FloatField(blank=True, null=True)
     target_ind = models.BigIntegerField(blank=True, null=True) 
     pilot_ind = models.BigIntegerField(blank=True, null=True) 
+    finaid_applicant_ind = models.BigIntegerField(blank=True, null=True) 
+    fafsa_filed_ind = models.BigIntegerField(blank=True, null=True) 
+    aid_package_complete_ind = models.BigIntegerField(blank=True, null=True) 
+    outlier_ind = models.BigIntegerField(blank=True, null=True)
+    ftft_enrolled_ind = models.BigIntegerField(blank=True, null=True)  
+    ftft_enrolled_pred_score = models.FloatField(blank=True, null=True) 
+    ftft_enrolled_pred_ind = models.BigIntegerField(blank=True, null=True)
+    intervention_ind = models.BigIntegerField(blank=True, null=True) 
     add_time = models.DateTimeField(default=timezone.now, blank=False, null=False)
     
     def __str__(self):
         return self.id
+     
+    def get_absolute_url(self):
+        return reverse('intervention_manager:applicant_detail', kwargs={'id':self.id})
     
     class Meta:
         managed = False
@@ -129,30 +140,15 @@ class ApplicantPilotOutcome(models.Model):
     def __str__(self):
         return self.id
     
-    def get_absolute_url(self):
+    def get_applicant_detail(self):
         return reverse('intervention_manager:applicant_detail', kwargs={'id':self.applicant_id})
+     
+    def get_absolute_url(self):
+        return reverse('intervention_manager:pilot_update', kwargs={'id':self.id})
     
     class Meta:
         managed = False
         db_table = 'applicant_pilot_outcome'
-
-
-class ApplicantPrediction(models.Model):
-    id = models.TextField(primary_key=True)
-    person_uid = models.TextField(blank=True, null=True)
-    applicant = models.ForeignKey(Applicant)
-    add_time = models.DateTimeField(default=timezone.now, blank=False, null=False)
-    ftft_enrolled_ind = models.BigIntegerField(blank=True, null=True)  
-    ftft_enrolled_pred_score = models.FloatField(blank=True, null=True) 
-    ftft_enrolled_pred_ind = models.BigIntegerField(blank=True, null=True)
-    intervention_need = models.BigIntegerField(blank=True, null=True)
-    
-    def get_absolute_url(self):
-        return reverse('intervention_manager:applicant_detail', kwargs={'id':self.applicant_id})
-    
-    class Meta:
-        managed = False
-        db_table = 'applicant_prediction'
 
 
 ########################## DB View ###############################

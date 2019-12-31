@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=jupyter/scipy-notebook
+ARG BASE_CONTAINER
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
@@ -88,3 +88,10 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 
 # Install IPython magics
 RUN pip install ipython-sql
+
+# Install H2O
+RUN conda config --append channels conda-forge && \
+	conda install -c h2oai h2o && \
+	conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER

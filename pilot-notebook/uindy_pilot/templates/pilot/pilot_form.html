@@ -1,0 +1,147 @@
+{% extends "base/app_base.html" %} 
+{% load crispy_forms_tags %}
+{% block content %}
+<div id="loss_manager_header" class="page-header">
+	<h1>
+		Applicant Specification <small>PERSON UID: {{ applicant.person_uid }}</small>
+	</h1>
+</div>
+<div class="row">
+	<div class="col-xs-6 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Fin Aid Applicant ?</h3>
+			</div>
+			<div class="panel-body">{{applicant.finaid_applicant_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">TFC / Gross Need / Unmet Need </h3>
+			</div>
+			<div class="panel-body">${{applicant.fm_tfc}} / ${{applicant.fm_gross_need}} / ${{applicant.fm_unmet_need}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Gov Loan (Sub & UnSub) / Private Loan / Gov Award</h3>
+			</div>
+			<div class="panel-body">${{applicant.fdl_sub_unsub_loan_amount}} / ${{applicant.priv_loan_amount}} / ${{applicant.award_gov_amount}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">UIndy Scholarship/Grant</h3>
+			</div>
+			<div class="panel-body">${{applicant.award_inst_amount}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Time of FAFSA Filed</h3>
+			</div>
+			<div class="panel-body">{{applicant.days_to_enrollment}} Days Before Enrollment</div>
+		</div>
+		
+
+	</div>
+	<div class="col-xs-6 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Indiana Residency</h3>
+			</div>
+			<div class="panel-body">{{applicant.residency_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Secondary School GPA</h3>
+			</div>
+			<div class="panel-body">{{applicant.secondary_school_reported_gpa}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">ACT/SAT Score</h3>
+			</div>
+			<div class="panel-body">{{applicant.test_score_a05}}/{{applicant.test_score_s10}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Family Size</h3>
+			</div>
+			<div class="panel-body">{{applicant.family_size}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Has Children to Support ?</h3>
+			</div>
+			<div class="panel-body">{{applicant.support_children_ind}}</div>
+		</div>
+	</div>
+</div>
+
+<div id="loss_manager_header" class="page-header">
+	<h1>
+		Intervention Strategy <small>PERSON UID: {{ applicant_pilot.person_uid }}</small>
+	</h1>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-md-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Fin Aid Applicant ?</h3>
+			</div>
+			<div class="panel-body">{{applicant_pilot.finaid_applicant_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">FAFSA Filed ?</h3>
+			</div>
+			<div class="panel-body">{{applicant_pilot.fafsa_filed_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Aid Package Complete ?</h3>
+			</div>
+			<div class="panel-body">{{applicant_pilot.aid_package_complete_ind}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Offer Additional Grant </h3>
+			</div>
+			<div class="panel-body">${{applicant_pilot.additional_grant}} </div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">This will Increase Tuition Discount to</h3>
+			</div>
+			<div class="panel-body">{{applicant_pilot.discount_rate}}%</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Likelihood to Enroll</h3>
+			</div>
+			<div class="panel-body">Increase likelihood from {{applicant_pilot.likelihood_before}}% to {{applicant_pilot.likelihood_after}}%</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Net Tuition Revenue in Return</h3>
+			</div>
+			<div class="panel-body">${{applicant_pilot.net_revenue}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Time Added</h3>
+			</div>
+			<div class="panel-body">This inference was added at {{applicant_pilot.add_time}}</div>
+		</div>
+	</div>
+</div>
+
+<div id="loss_manager_header" class="page-header">
+	<h1>Leave the Note</h1>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-md-12">
+		<form method="POST" action="">
+			{% csrf_token %} {{form|crispy}} 
+			<input id="button" type="submit" value="Save" class="btn btn-primary"/>
+		</form>
+	</div>
+</div>
+{% endblock content %}

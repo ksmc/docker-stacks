@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=jupyter/minimal-notebook
+ARG BASE_CONTAINER
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
@@ -13,6 +13,20 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 USER $NB_UID
+
+# Increase JavaScript heap memory
+ENV NODE_OPTIONS=--max-old-space-size=16000
+
+# Install facets which does not have a pip or conda package at the moment
+RUN cd /tmp && \
+    git clone https://github.com/PAIR-code/facets.git && \
+    cd facets && \
+    jupyter nbextension install facets-dist/ --sys-prefix && \
+    cd && \
+    pip install facets-overview && \
+    rm -rf /tmp/facets && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 # Install Python 3 packages
 RUN conda install --quiet --yes \
@@ -41,16 +55,23 @@ RUN conda install --quiet --yes \
     'sympy=1.4*' \
     'vincent=0.4.*' \
     'xlrd' \
-    && \
+    'ipython-sql' && \
+    pip install jupyterlab_sql==0.3.0 && \
+    pip install jupyterlab-git==0.8.1 && \
+    pip install jupyterlab_iframe && \
     conda clean --all -f -y && \
     # Activate ipywidgets extension in the environment that runs the notebook server
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    jupyter serverextension enable jupyterlab_sql --py --sys-prefix && \
+	jupyter serverextension enable jupyterlab_git --py --sys-prefix && \
     # Also activate ipywidgets extension for JupyterLab
     # Check this URL for most recent compatibilities
     # https://github.com/jupyter-widgets/ipywidgets/tree/master/packages/jupyterlab-manager
     jupyter labextension install @jupyter-widgets/jupyterlab-manager@^1.0.1 --no-build && \
     jupyter labextension install jupyterlab_bokeh@1.0.0 --no-build && \
-    jupyter lab build --dev-build=False && \
+    jupyter labextension install @jupyterlab/dataregistry-extension --no-build && \
+	jupyter labextension install @jupyterlab/git --no-build && \
+    jupyter lab build && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
@@ -58,19 +79,23 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Install facets which does not have a pip or conda package at the moment
-RUN cd /tmp && \
-    git clone https://github.com/PAIR-code/facets.git && \
-    cd facets && \
-    jupyter nbextension install facets-dist/ --sys-prefix && \
-    cd && \
-    rm -rf /tmp/facets && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
+    fix-permissions /home/$NB_USER
+
+# Install plotly and colorlover 
+RUN conda install -c plotly plotly=4.1.0 && \
+	conda install -c plotly plotly-geo=1.0.0 && \
+	conda install -c conda-forge colorlover && \
+	jupyter labextension install @jupyterlab/plotly-extension --no-build && \
+	jupyter labextension install jupyterlab-chart-editor --no-build && \ 
+	jupyter lab build && \
+	npm cache clean --force && \
+	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
 USER $NB_UID

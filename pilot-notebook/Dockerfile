@@ -1,6 +1,6 @@
 ## Copyright (c) Jupyter Development Team.
 ## Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=uindyanaenvacr.azurecr.io/datascience-notebook:1.0.4
+ARG BASE_CONTAINER=uindyanaenvacr.azurecr.io/datascience-notebook:latest
 FROM $BASE_CONTAINER
 
 USER $NB_USER
@@ -22,6 +22,7 @@ USER $NB_USER
 RUN cd /opt/conda/pilot/jupyter-pilot-proxy && \
 	pip install . && \
 	cd /home/$NB_USER/uindy_pilot && \
-	pip install -r requirements.txt
+	pip install -r requirements.txt && \
 	fix-permissions $CONDA_DIR && \
 	fix-permissions /home/$NB_USER
+

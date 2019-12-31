@@ -2,7 +2,7 @@
 <!--DOCTYPE html -->
 <html>
 <head>
-<title>Pharmacy Loss Data Center</title>
+<title>UIndy Pilot</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -15,9 +15,22 @@
 	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
 	crossorigin="anonymous">
 
-
-<link rel='stylesheet' href='{% static "css/base.css" %}' />
 <style>
+#apps_enter p {
+	text-align: center;
+}
+
+#apps_enter h3 {
+	text-align:center;
+}
+
+#page {
+	text-align:center;
+}
+
+.messages {
+	color:red;
+}
 </style>
 </head>
 <body>
@@ -28,7 +41,6 @@
 		<div id="apps_enter" class="row">
 			<div class="col-xs-6 col-md-4">
 				<div class="thumbnail">
-					<img src='{% static "img/strongbox.png" %}' alt="Intervention_Manager">
 					<div class="caption">
 						<h3>Intervention Manager</h3>
 						<p>Review applicants targeted by machine learning model, apply intervention strategy and provide feedback to the model.</p>
@@ -40,12 +52,11 @@
 			</div>
 			<div class="col-xs-6 col-md-4">
 				<div class="thumbnail">
-					<img src='{% static "img/stats.png" %}' alt="Strategy_Analyst">
 					<div class="caption">
 						<h3>Reports</h3>
-						<p>(Not Available) View up-to-date reports of the intervention process.</p>
+						<p>View up-to-date data visualization report of the intervention process.</p>
 						<p>
-							<a href="#" class="btn btn-primary" role="button" target="_blank">Enter</a>
+							<a href="intervention_report" class="btn btn-primary" role="button">Enter</a>
 						</p>
 					</div>
 				</div>

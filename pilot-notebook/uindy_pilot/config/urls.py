@@ -18,17 +18,31 @@ from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.contrib import admin
 from . import views
+## Deployment
+import os
+username = os.getenv('USERNAME')
+if username:
+    urlpatterns = [
+        ## For run in AKS
+        url(r'^user/{}/pilot/intervention_manager'.format(username), include('intervention_manager.urls', namespace="intervention_manager")),
+        url(r'^user/{}/pilot/intervention_report'.format(username), include('intervention_report.urls', namespace="intervention_report")),
+        url(r'^user/{}/pilot'.format(username), views.goHome, name = "home"),
+    
+    ]
+else:
+    urlpatterns = [
+        ## For run in local container
+        url(r'^pilot/intervention_manager', include('intervention_manager.urls', namespace="intervention_manager")),
+        url(r'^pilot/intervention_report', include('intervention_report.urls', namespace="intervention_report")),
+        url(r'^pilot', views.goHome, name = "home"),
+        ## For run as localhost
+        url(r'^intervention_manager/', include('intervention_manager.urls', namespace="intervention_manager")),
+        url(r'^intervention_report/', include('intervention_report.urls', namespace="intervention_report")),
+        url(r'^$', views.goHome, name = "home"),
+        
+    ]
 
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^intervention_manager/', include('intervention_manager.urls', namespace="intervention_manager")),
-#     url(r'^api/', include('api.urls', namespace='api')),
-#     url(r'^crash_api/', include('crash_api.urls', namespace='crash_api')),
-    url(r'^$', views.goHome, name = "home"),
-#     url(r'^accounts/', include('registration.backends.default.urls'))
-]
-
-## Simulate static Cdn
+## get static files through external URL
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
