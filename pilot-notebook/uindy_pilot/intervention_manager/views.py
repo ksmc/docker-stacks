@@ -18,14 +18,20 @@ from intervention_manager.form import *
 
 def _search_parser(filter):
     filter = filter.replace('LIKELIHOOD','likelihood_after') \
+                    .replace('LIKELIHOOD','likelihood_before') \
                     .replace('ADDITIONAL_GRANT','additional_grant') \
                     .replace('TUITION_DISCOUNT','discount_rate') \
                     .replace('TUITION_NET_REVENUE','net_revenue') \
+                    .replace('MERIT_GRANT_TIER','merit_grant_tier') \
+                    .replace('LATEST_DECISION','latest_decision') \
+                    .replace('HIGH_SCHOOL','latest_secondary_school_name') \
+                    .replace('high_school','latest_secondary_school_name') \
                     .replace('PERSON_UID','person_uid') \
-                    .replace('FINAID_APPLICANT_IND','finaid_applicant_ind') \
-                    .replace('FAFSA_FILED_IND','fafsa_filed_ind') \
-                    .replace('AID_PACKAGE_COMPLETE_IND','aid_package_complete_ind') \
                     .replace('SEQ_ID','seq_id')
+#                     .replace('FINAID_APPLICANT_IND','finaid_applicant_ind') \
+#                     .replace('FAFSA_FILED_IND','fafsa_filed_ind') \
+#                     .replace('AID_PACKAGE_COMPLETE_IND','aid_package_complete_ind') \
+                    
     return [filter]
 
 ############# Applicant Pilot ######################## 

@@ -29,3 +29,8 @@ cd rstudio-notebook
 docker build -t uindyanaenvacr.azurecr.io/rstudio-notebook:latest --build-arg BASE_CONTAINER=uindyanaenvacr.azurecr.io/r-notebook:latest .
 docker push uindyanaenvacr.azurecr.io/rstudio-notebook:latest
 cd ..
+
+cd pilot-notebook
+docker build -t uindyanaenvacr.azurecr.io/pilot-notebook:latest .
+docker push uindyanaenvacr.azurecr.io/pilot-notebook:latest
+cd ..

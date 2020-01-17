@@ -14,6 +14,7 @@ USER root
 # R pre-requisites
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    python-psycopg2 \
     fonts-dejavu \
     gfortran \
     gcc && \
@@ -87,11 +88,13 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
 
 # Install IPython magics
-RUN pip install ipython-sql
-
-# Install H2O
-RUN conda config --append channels conda-forge && \
-	conda install -c h2oai h2o && \
+RUN conda install -c h2oai h2o && \
 	conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+RUN pip install deap update_checker tqdm stopit psycopg2-binary
+
+RUN pip install h2o xgboost tpot
+
+USER $NB_UID

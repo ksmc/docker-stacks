@@ -10,38 +10,55 @@
 	<div class="col-xs-6 col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">Fin Aid Applicant ?</h3>
+				<h3 class="panel-title">Latest Decision</h3>
 			</div>
-			<div class="panel-body">{{applicant.finaid_applicant_ind}}</div>
+			<div class="panel-body">{{applicant_pilot.latest_decision}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">TFC / Gross Need / Unmet Need </h3>
+				<h3 class="panel-title">COA/ TFC / Gross Need / Total AID Amount / Total Gift Aid </h3>
 			</div>
-			<div class="panel-body">${{applicant.fm_tfc}} / ${{applicant.fm_gross_need}} / ${{applicant.fm_unmet_need}}</div>
+			<div class="panel-body">${{applicant.coa}} / ${{applicant.pell_efc}} / ${{applicant.gross_need}} / ${{applicant.aid_total}} / ${{applicant.aid_gift}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">Gov Loan (Sub & UnSub) / Private Loan / Gov Award</h3>
+				<h3 class="panel-title">Sub Loan / UnSub Loan / Perkins Loan / Gov Award / UIndy Scholarship</h3>
 			</div>
-			<div class="panel-body">${{applicant.fdl_sub_unsub_loan_amount}} / ${{applicant.priv_loan_amount}} / ${{applicant.award_gov_amount}}</div>
+			<div class="panel-body">${{applicant.loan_fdl_sub_amount}} / ${{applicant.loan_fdl_unsub_amount}} / ${{applicant.loan_fdl_perkins_amount}} / ${{applicant.award_gov_amount}} / ${{applicant.award_inst_amount}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">UIndy Scholarship/Grant</h3>
+				<h3 class="panel-title">Unmet Need</h3>
 			</div>
-			<div class="panel-body">${{applicant.award_inst_amount}}</div>
+			<div class="panel-body">${{applicant.unmet_need}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h3 class="panel-title">Time of FAFSA Filed</h3>
 			</div>
-			<div class="panel-body">{{applicant.days_to_enrollment}} Days Before Enrollment</div>
+			<div class="panel-body">{{applicant.days_to_enrollment_fafsa}} Days Before Enrollment</div>
 		</div>
-		
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Time of Applied</h3>
+			</div>
+			<div class="panel-body">{{applicant.day_to_deadline_application}} Days Before Enrollment</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Merit Grant Score / Tier</h3>
+			</div>
+			<div class="panel-body">{{applicant.merit_grant_scale}}/100 / {{applicant.merit_grant_tier}}</div>
+		</div>
 
 	</div>
 	<div class="col-xs-6 col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Secondary School Name</h3>
+			</div>
+			<div class="panel-body">{{applicant.latest_secondary_school_name}}</div>
+		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h3 class="panel-title">Indiana Residency</h3>
@@ -59,6 +76,12 @@
 				<h3 class="panel-title">ACT/SAT Score</h3>
 			</div>
 			<div class="panel-body">{{applicant.test_score_a05}}/{{applicant.test_score_s10}}</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Campus Visit / Interests Score</h3>
+			</div>
+			<div class="panel-body">{{applicant.visit_count}} / {{applicant.is_score}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -82,35 +105,18 @@
 </div>
 <div class="row">
 	<div class="col-xs-12 col-md-12">
+		
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">Fin Aid Applicant ?</h3>
+				<h3 class="panel-title">Additional Grant to Offer</h3>
 			</div>
-			<div class="panel-body">{{applicant_pilot.finaid_applicant_ind}}</div>
+			<div class="panel-body">${{applicant_pilot.additional_grant}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">FAFSA Filed ?</h3>
+				<h3 class="panel-title">Tuition Discount</h3>
 			</div>
-			<div class="panel-body">{{applicant_pilot.fafsa_filed_ind}}</div>
-		</div>
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Aid Package Complete ?</h3>
-			</div>
-			<div class="panel-body">{{applicant_pilot.aid_package_complete_ind}}</div>
-		</div>
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Offer Additional Grant </h3>
-			</div>
-			<div class="panel-body">${{applicant_pilot.additional_grant}} </div>
-		</div>
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">This will Increase Tuition Discount to</h3>
-			</div>
-			<div class="panel-body">{{applicant_pilot.discount_rate}}%</div>
+			<div class="panel-body">Increase tuition discount from {{applicant_pilot.discount_rate_org}}% to {{applicant_pilot.discount_rate}}%</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -124,6 +130,7 @@
 			</div>
 			<div class="panel-body">${{applicant_pilot.net_revenue}}</div>
 		</div>
+		
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h3 class="panel-title">Time Added</h3>

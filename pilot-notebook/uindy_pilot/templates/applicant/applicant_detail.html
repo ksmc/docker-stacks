@@ -11,15 +11,15 @@
 	<div class="col-xs-6 col-md-6">
 		<div id="outcome_label" class="panel">
 			<div class="panel-heading">
-				<h3 class="panel-title">TFC / Gross Need / Total AID Amount / Unmet Need </h3>
+				<h3 class="panel-title">TFC / Gross Need / Total AID Amount / Total Gift Aid / Unmet Need </h3>
 			</div>
-			<div id="outcome_body" class="panel-body">${{obj.fm_tfc}} / ${{obj.fm_gross_need}} / ${{obj.total_offer_amount}} / ${{obj.fm_unmet_need}}</div>
+			<div id="outcome_body" class="panel-body">${{obj.pell_efc}} / ${{obj.gross_need}} / ${{obj.aid_total}} / ${{obj.aid_gift}} / ${{obj.unmet_need}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">Gov Loan / Private Loan / Gov Award</h3>
+				<h3 class="panel-title">Sub Loan+UnSub Loan / Perkins Loan / Gov Award</h3>
 			</div>
-			<div class="panel-body">${{obj.fdl_sub_unsub_loan_amount}} / ${{obj.parent_priv_loan_amount}} / ${{obj.award_gov_amount}}</div>
+			<div class="panel-body">${{obj.loan_fdl_sub_amount}}+${{obj.loan_fdl_unsub_amount}} / ${{obj.loan_fdl_perkins_amount}} / ${{obj.award_gov_amount}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -31,13 +31,13 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Time of FAFSA Filed</h3>
 			</div>
-			<div class="panel-body">{{obj.days_to_enrollment}} Days Before Enrollment</div>
+			<div class="panel-body">{{obj.days_to_enrollment_fafsa}} Days Before Enrollment</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">Athlete</h3>
+				<h3 class="panel-title">Time of Applied</h3>
 			</div>
-			<div class="panel-body">{{obj.sport_ind}}</div>
+			<div class="panel-body">{{obj.day_to_deadline_application}} Days Before Deadline</div>
 		</div>
 
 	</div>
@@ -56,9 +56,9 @@
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title">UINDY is in Top 3 Choices ?</h3>
+				<h3 class="panel-title">Parent Total Income / Parent Total Contribute Income</h3>
 			</div>
-			<div class="panel-body">{{obj.priority_uindy_ind}}</div>
+			<div class="panel-body">${{obj.fm_parent_total_income}} / ${{obj.fm_parent_contribution_income}}</div>
 		</div>
 		<div class="panel panel-info">
 			<div class="panel-heading">
