@@ -3,33 +3,44 @@
 <div id="loss_manager_header" class="page-header">
 	<h1>Intervention Candidate Pool</h1>
 </div>
-<form method="GET" action="">
+
 <div id="search_bar" class="row">
-	<div class="col-xs-6 col-md-6">
-		<input name="filter" type="text" placeholder="Search with SQL. i.e. AID_PACKAGE_COMPLETE_IND>0"
-				value='{{request.GET.filter}}' class="form-control"/>
-	</div>
-	
-	<div class="col-xs-6 col-md-6">
-		<input id="button" class="btn btn-primary" type="submit"
-			value="Search" /> 
-	</div>
+	<form method="GET" action="">
+		<div class="col-xs-4 col-md-4">
+			<input name="filter" type="text" placeholder="Search with SQL. i.e. PILOT_IND>0"
+					value='{{request.GET.filter}}' class="form-control"/>
+		</div>
+		
+		<div class="col-xs-4 col-md-4">
+			<input id="button" class="btn btn-primary" type="submit"
+				value="Search" /> 
+		</div>
+	</form>
+	<form method="POST" action="">
+	{% csrf_token %}
+		<div class="col-xs-4 col-md-4">
+			<button type="submit" class="btn btn-primary" name="csv">Download</button>
+		</div>
+	</form>
 </div>
-</form>
+
 <div class="row">
 	<div class="table-responsive">
 		<table class="table table-striped table-condensed ">
 			<tr>
 				<th>PERSON_UID</th>
+				<th>STUDENTNO</th>
+				<th>PILOT_IND</th>
 				<th>SEQ_ID</th>
 				<th>LIKELIHOOD BEFORE</th>
 				<th>LIKELIHOOD AFTER</th>
-				<th>TARGET_ADDITIONAL_GRANT</th>
-				<th>TARGET_NET_REVENUE</th>
-				<th>TARGET_TUITION_DISCOUNT</th>
+				<th>ADDITIONAL_GRANT</th>
+				<th>NET_REVENUE</th>
+				<th>TUITION_DISCOUNT</th>
 				<th>LATEST_DECISION</th>
 				<th>MERIT_GRANT_TIER</th>
 				<th>HIGH_SCHOOL</th>
+				<th>PELL_EFC</th> 
 				<th>TIME_ADDED</th>
 				<th>TIME_UPDATED</th>
 				<th>NOTE</th>
@@ -38,6 +49,8 @@
 			{% for obj in objects %}
 			<tr class="active">
 				<td class="active">{{obj.applicant_pilot.person_uid}}</td>
+				<td class="active">{{obj.applicant_pilot.studentno}}</td>
+				<td class="active">{{obj.applicant_pilot.pilot_ind}}</td>
 				<td class="active">{{obj.applicant_pilot.seq_id}}</td>
 				<td class="active">{{obj.applicant_pilot.likelihood_before}}%</td>
 				<td class="active">{{obj.applicant_pilot.likelihood_after}}%</td>
@@ -47,6 +60,7 @@
 				<td class="active">{{obj.applicant_pilot.latest_decision}}</td>
 				<td class="active">{{obj.applicant_pilot.merit_grant_tier}}</td>
 				<td class="active">{{obj.applicant_pilot.latest_secondary_school_name}}</td>
+				<td class="active">{{obj.applicant_pilot.pell_efc}}</td>
 				<td class="active">{{obj.applicant_pilot.add_time}}</td>
 				<td class="active">{{obj.update_time_note}}</td>
 				<td class="active">{{obj.note}}</td>

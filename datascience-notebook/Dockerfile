@@ -42,7 +42,7 @@ RUN mkdir /etc/julia && \
     chown $NB_USER $JULIA_PKGDIR && \
     fix-permissions $JULIA_PKGDIR
 
-USER $NB_UID
+USER $NB_USER
 
 # R packages including IRKernel which gets installed globally.
 RUN conda install --quiet --yes \
@@ -97,4 +97,4 @@ RUN pip install deap update_checker tqdm stopit psycopg2-binary
 
 RUN pip install h2o xgboost tpot
 
-USER $NB_UID
+USER $NB_USER
