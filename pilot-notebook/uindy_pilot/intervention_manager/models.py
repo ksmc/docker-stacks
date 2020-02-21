@@ -111,6 +111,7 @@ class Applicant(models.Model):
     studentno = models.TextField(blank=True, null=True)
     seq_id = models.BigIntegerField(blank=True, null=True)
     id = models.TextField(primary_key=True)
+    verification_required_ind = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -145,6 +146,9 @@ class ApplicantPilot(models.Model):
     latest_secondary_school_name = models.TextField(blank=True, null=True)
     latest_decision = models.TextField(blank=True, null=True)
     latest_decision_date = models.TextField(blank=True, null=True)
+    update_note = models.TextField(blank=True, null=True)
+    packaging_group = models.TextField(blank=True, null=True)
+    verification_required_ind = models.FloatField(blank=True, null=True)
     
     def __str__(self):
         return self.id

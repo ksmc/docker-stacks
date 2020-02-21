@@ -30,7 +30,11 @@ def _search_parser(filter):
                     .replace('PERSON_UID','person_uid') \
                     .replace('STUDENTNO','studentno') \
                     .replace('SEQ_ID','seq_id') \
-                    .replace('PILOT_IND','pilot_ind')
+                    .replace('PILOT_IND','pilot_ind') \
+                    .replace('TARGET_IND','target_ind') \
+                    .replace('UPDATE_NOTE','update_note') \
+                    .replace('PACKAGING_GROUP','packaging_group') \
+                    .replace('VERIFICATION_REQUIRED_IND','verification_required_ind')
 #                     .replace('FINAID_APPLICANT_IND','finaid_applicant_ind') \
 #                     .replace('FAFSA_FILED_IND','fafsa_filed_ind') \
 #                     .replace('AID_PACKAGE_COMPLETE_IND','aid_package_complete_ind') \
@@ -44,12 +48,12 @@ def pilot_list(request):
         response['Content-Disposition'] = 'attachment; filename="admission_pilot_2020.csv"'
         data = ApplicantPilot.objects.filter(
 #                     Q(pilot_ind=1) &
-                    Q(target_ind=1)
-                    ).order_by('-pilot_ind','person_uid')
+#                     Q(target_ind=1)
+                    ).order_by('-pilot_ind','person_uid','seq_id')
         writer = csv.writer(response)
-        writer.writerow(['studentno','person_uid','seq_id','pilot_ind','residency_ind','merit_grant_tier','pell_efc','latest_secondary_school_name','latest_decision','ftft_enrolled_pred_ind','target_ind','additional_grant','net_revenue','discount_rate','discount_rate_org','likelihood_after','likelihood_before'])
+        writer.writerow(['studentno','person_uid','seq_id','pilot_ind','target_ind','update_note','packaging_group','verification_required_ind','residency_ind','merit_grant_tier','pell_efc','latest_secondary_school_name','latest_decision','ftft_enrolled_pred_ind','target_ind','additional_grant','net_revenue','discount_rate','discount_rate_org','likelihood_after','likelihood_before'])
         for row in data:
-            rowobj = [row.studentno,row.person_uid,row.seq_id,row.pilot_ind,row.residency_ind,row.merit_grant_tier,row.pell_efc,row.latest_secondary_school_name,row.latest_decision,row.ftft_enrolled_pred_ind,row.target_ind,row.additional_grant,row.net_revenue,row.discount_rate,row.discount_rate_org,row.likelihood_after,row.likelihood_before]
+            rowobj = [row.studentno,row.person_uid,row.seq_id,row.pilot_ind,row.target_ind,row.update_note,row.packaging_group,row.verification_required_ind,row.residency_ind,row.merit_grant_tier,row.pell_efc,row.latest_secondary_school_name,row.latest_decision,row.ftft_enrolled_pred_ind,row.target_ind,row.additional_grant,row.net_revenue,row.discount_rate,row.discount_rate_org,row.likelihood_after,row.likelihood_before]
             writer.writerow(rowobj)
         return response 
     else:
@@ -58,13 +62,13 @@ def pilot_list(request):
             where_clauses = _search_parser(filter)
             objects = ApplicantPilotOutcome.objects.filter(
 #                     Q(applicant_pilot__pilot_ind=1) &
-                    Q(applicant_pilot__target_ind=1)
-                    ).extra(where=where_clauses).order_by('-applicant_pilot__pilot_ind','applicant_pilot__person_uid')
+                    Q(applicant_pilot__target_ind__gte=-1)
+                    ).extra(where=where_clauses).order_by('-applicant_pilot__pilot_ind','applicant_pilot__person_uid','applicant_pilot__seq_id')
         else:
             objects = ApplicantPilotOutcome.objects.filter(
 #                     Q(applicant_pilot__pilot_ind=1) &
-                    Q(applicant_pilot__target_ind=1)
-                    ).order_by('-applicant_pilot__pilot_ind','applicant_pilot__person_uid')
+                    Q(applicant_pilot__target_ind__gte=-1)
+                    ).order_by('-applicant_pilot__pilot_ind','applicant_pilot__person_uid','applicant_pilot__seq_id')
                     
         paginator = Paginator(objects, 25) # Show 25 contacts per page
         page_request_var = "page"

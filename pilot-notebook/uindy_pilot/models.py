@@ -106,6 +106,7 @@ class Applicant(models.Model):
     test_score_satt = models.FloatField(blank=True, null=True)
     aid_package_complete_ind = models.FloatField(blank=True, null=True)
     packaging_group = models.TextField(blank=True, null=True)
+    verification_required_ind = models.TextField(blank=True, null=True)
     merit_grant_scale = models.FloatField(blank=True, null=True)
     merit_grant_tier = models.TextField(blank=True, null=True)
     tag = models.BigIntegerField(blank=True, null=True)
@@ -250,6 +251,9 @@ class ApplicantPilot(models.Model):
     recommend_grant = models.FloatField(blank=True, null=True)
     outlier_ind = models.BigIntegerField(blank=True, null=True)
     target_ind = models.BigIntegerField(blank=True, null=True)
+    update_note = models.TextField(blank=True, null=True)
+    packaging_group = models.TextField(blank=True, null=True)
+    verification_required_ind = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
