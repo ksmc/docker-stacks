@@ -16,8 +16,6 @@ docker push $ARC_NAME.azurecr.io/base-notebook:latest
 cd ..
 
 # build the novnc-notebook
-cd novnc-notebook
-git clone --recurse-submodules --branch k8s-vdi https://github.com/zjiaksmc/docker-ubuntu-vnc-desktop.git
 cd docker-ubuntu-vnc-desktop
 docker build -t $ARC_NAME.azurecr.io/novnc-notebook:latest .
 docker push $ARC_NAME.azurecr.io/novnc-notebook:latest
