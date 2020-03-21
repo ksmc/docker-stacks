@@ -1,0 +1,12 @@
+[submodule "jupyter-k8s-hub/jupyterhub"]
+	path = jupyter-k8s-hub/jupyterhub
+	url = https://github.com/ksmc/jupyterhub
+	branch = k8s-vdi
+[submodule "base-notebook/jupyterhub"]
+	path = base-notebook/jupyterhub
+	url = https://github.com/ksmc/jupyterhub
+	branch = k8s-vdi
+[submodule "docker-ubuntu-vnc-desktop"]
+	path = docker-ubuntu-vnc-desktop
+	url = https://github.com/zjiaksmc/docker-ubuntu-vnc-desktop
+	branch = k8s-vdi
