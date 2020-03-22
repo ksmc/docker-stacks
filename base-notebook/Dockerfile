@@ -149,7 +149,10 @@ ADD jupyterhub/share/jupyterhub/templates/spawn.html /opt/conda/share/jupyterhub
 ADD jupyterhub/share/jupyterhub/templates/page.html /opt/conda/share/jupyterhub/templates/page.html
 ADD jupyterhub/jupyterhub/orm.py /opt/conda/lib/python3.7/site-packages/jupyterhub/orm.py
 
-EXPOSE 8888
+# Install Azure storage API
+RUN pip install azure-storage-blob azure-storage-file azure-storage-queue
+
+EXPOSE 9999
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
@@ -170,5 +173,3 @@ RUN fix-permissions /etc/jupyter/ && \
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
 
-# Install Azure storage API
-RUN pip install azure-storage-blob azure-storage-file azure-storage-queue
