@@ -17,17 +17,6 @@ USER $NB_UID
 # Increase JavaScript heap memory
 ENV NODE_OPTIONS=--max-old-space-size=16000
 
-# Install facets which does not have a pip or conda package at the moment
-RUN cd /tmp && \
-    git clone https://github.com/PAIR-code/facets.git && \
-    cd facets && \
-    jupyter nbextension install facets-dist/ --sys-prefix && \
-    cd && \
-    pip install facets-overview && \
-    rm -rf /tmp/facets && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-
 # Install Python 3 packages
 RUN conda install --quiet --yes \
     'beautifulsoup4=4.8.*' \
@@ -43,7 +32,7 @@ RUN conda install --quiet --yes \
     'matplotlib-base=3.1.*' \
     'numba=0.45*' \
     'numexpr=2.6*' \
-    'pandas=0.25*' \
+    'pandas=0.24*' \
     'patsy=0.5*' \
     'protobuf=3.9.*' \
     'scikit-image=0.15*' \
@@ -98,6 +87,17 @@ RUN conda install -c plotly plotly=4.1.0 && \
 	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+# Install facets which does not have a pip or conda package at the moment
+RUN cd /tmp && \
+    git clone https://github.com/PAIR-code/facets.git && \
+    cd facets && \
+    jupyter nbextension install facets-dist/ --sys-prefix && \
+    cd && \
+    pip install facets-overview && \
+    rm -rf /tmp/facets && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 

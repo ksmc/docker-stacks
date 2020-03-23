@@ -14,6 +14,7 @@ c.NotebookApp.open_browser = False
 c.NotebookApp.iopub_data_rate_limit = 1.0e10
 c.NotebookApp.iopub_msg_rate_limit = 1.0e5
 c.NotebookApp.token = ''
+c.NotebookApp.allow_origin = '*'
 
 # https://github.com/jupyter/notebook/issues/3130
 c.FileContentsManager.delete_to_trash = False
