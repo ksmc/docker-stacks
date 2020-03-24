@@ -60,6 +60,12 @@ docker build -t $ACR_NAME.azurecr.io/theia-vscode:latest .
 docker push $ACR_NAME.azurecr.io/theia-vscode:latest
 cd ..
 
+# pgadmin image
+cd pgadmin4
+docker build -t $ACR_NAME.azurecr.io/pgadmin4:latest .
+docker push $ACR_NAME.azurecr.io/pgadmin4:latest
+cd ..
+
 
 
 
