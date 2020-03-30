@@ -10,5 +10,6 @@ COPY jupyterhub/share/jupyterhub/static/css/style.min.css /usr/local/share/jupyt
 COPY jupyterhub/share/jupyterhub/templates/spawn.html /usr/local/share/jupyterhub/templates/spawn.html
 COPY jupyterhub/share/jupyterhub/templates/page.html /usr/local/share/jupyterhub/templates/page.html
 COPY jupyterhub/jupyterhub/orm.py /usr/local/lib/python3.6/dist-packages/jupyterhub/orm.py
+# COPY jupyterhub/jupyterhub/user.py /usr/local/lib/python3.6/dist-packages/jupyterhub/user.py
 
 USER ${NB_USER}
