@@ -14,6 +14,12 @@ docker build -t mphanaenvacr.azurecr.io/base-notebook:latest .
 docker push mphanaenvacr.azurecr.io/base-notebook:latest
 cd ..
 
+# build the unifi-notebook
+cd unifi-notebook
+docker build -t mphanaenvacr.azurecr.io/unifi-notebook:latest --build-arg BASE_CONTAINER=mphanaenvacr.azurecr.io/base-notebook:latest .
+docker push mphanaenvacr.azurecr.io/unifi-notebook:latest
+cd ..
+
 # drived from base-notebook
 cd r-notebook
 docker build -t mphanaenvacr.azurecr.io/r-notebook:latest --build-arg BASE_CONTAINER=mphanaenvacr.azurecr.io/base-notebook:latest .
