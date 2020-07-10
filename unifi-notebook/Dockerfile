@@ -175,3 +175,20 @@ ADD config-rstudio.sh /etc/rstudio/config-rstudio.sh
 RUN fix-permissions /etc/rstudio/
 
 USER $NB_USER
+
+RUN conda install --quiet --yes -c r r-rjava r-xlsxjars r-xlsx r-venneuler r-opennlpdata
+
+ENV LD_LIBRARY_PATH=/opt/conda/lib/server
+
+RUN R CMD javareconf -e && \
+    R -e 'install.packages("openNLP", repos = "http://cran.us.r-project.org")' && \
+    R -e 'install.packages("qdap", repos = "http://cran.us.r-project.org")'
+
+RUN conda install --quiet --yes -c conda-forge -c anaconda cookiecutter nodejs
+
+USER root
+COPY rstudio-launcher /opt/conda/rstudio-launcher
+RUN chown -R jovyan:users /opt/conda/rstudio-launcher
+
+USER $NB_USER
+RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
