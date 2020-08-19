@@ -192,3 +192,22 @@ RUN chown -R jovyan:users /opt/conda/rstudio-launcher
 
 USER $NB_USER
 RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
+
+# Install CoLab
+RUN conda install --quiet --yes \
+    'r-nycflights13' \
+    'r-corrplot' \
+    'r-ggplot2' \
+    'r-car' \
+    'r-appliedpredictivemodeling' \
+    'r-snowballc' \
+    'r-wordcloud' \
+    'r-broom' \
+    'r-visnetwork' \
+    'r-factoextra' \
+    'r-e1071' \
+    'r-rock' \
+    'r-rpart' \
+    'r-randomforest' && \
+    conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR
