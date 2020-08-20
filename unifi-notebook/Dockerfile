@@ -195,32 +195,31 @@ RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension insta
 
 # Install CoLab
 RUN conda install --quiet --yes \
-    'r-nycflights13' \
-    'r-corrplot' \
-    'r-ggplot2' \
-    'r-car' \
     'r-appliedpredictivemodeling' \
-    'r-snowballc' \
-    'r-wordcloud' \
     'r-broom' \
-    'r-visnetwork' \
-    'r-factoextra' \
+    'r-nycflights13' \
+    'r-car' \
+    'r-corrplot' \
     'r-e1071' \
+    'r-factoextra' \
+    'r-ggplot2' \
+    'r-randomforest' \
     'r-rpart' \
-    'r-randomforest' && \
+    'r-snowballc' \
+    'r-visnetwork' \
+    'r-wordcloud' && \
     conda clean --all -f -y && \
-    fix-permissions $CONDA_DIR \
-	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+
 RUN conda install -c pdiakumis --quiet --yes \
-    'r-rock' \ && \
+    'r-rock' && \
     conda clean --all -f -y && \
-    fix-permissions $CONDA_DIR \
-	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
