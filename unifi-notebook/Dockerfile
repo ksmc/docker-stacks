@@ -206,8 +206,22 @@ RUN conda install --quiet --yes \
     'r-visnetwork' \
     'r-factoextra' \
     'r-e1071' \
-    'r-rock' \
     'r-rpart' \
     'r-randomforest' && \
     conda clean --all -f -y && \
-    fix-permissions $CONDA_DIR
+    fix-permissions $CONDA_DIR \
+	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+RUN conda install -c pdiakumis --quiet --yes \
+    'r-rock' \ && \
+    conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR \
+	rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
