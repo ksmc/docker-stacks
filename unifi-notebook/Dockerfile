@@ -43,7 +43,7 @@ RUN conda install --quiet --yes \
     'matplotlib-base=3.1.*' \
     'numba=0.45*' \
     'numexpr=2.6*' \
-    'pandas=0.25*' \
+    'pandas=1.1*' \
     'patsy=0.5*' \
     'protobuf=3.9.*' \
     'scikit-image=0.15*' \
@@ -54,6 +54,7 @@ RUN conda install --quiet --yes \
     'statsmodels=0.10*' \
     'sympy=1.4*' \
     'vincent=0.4.*' \
+    'dash=1.8.*' \
     'xlrd' \
     'ipython-sql' && \
     pip install jupyterlab_sql==0.3.0 && \
@@ -131,6 +132,9 @@ RUN conda install --quiet --yes \
     'r-dplyr' \
     'r-rjson' \
     'r-tm' \
+    'r-ggmap' \
+    'r-maps' \
+    'r-mapdata' \
     'r-hexbin' && \
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR
@@ -207,6 +211,9 @@ RUN conda install --quiet --yes \
     'r-rpart' \
     'r-snowballc' \
     'r-visnetwork' \
+    'r-ggmap' \
+    'r-maps' \
+    'r-mapdata' \
     'r-wordcloud' && \
     conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
