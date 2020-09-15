@@ -195,6 +195,7 @@ COPY rstudio-launcher /opt/conda/rstudio-launcher
 RUN chown -R jovyan:users /opt/conda/rstudio-launcher
 
 USER $NB_USER
+RUN echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
 RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
 
 # Install CoLab
