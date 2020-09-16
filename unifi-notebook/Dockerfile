@@ -109,7 +109,6 @@ USER $NB_USER
 RUN conda install --quiet --yes \
     'r-flexdashboard' \
     'r-shinydashboard' \
-    'r-ggnewscale' \
     'r-base=3.6.1' \
     'r-caret=6.0*' \
     'r-crayon=1.3*' \
@@ -172,9 +171,6 @@ RUN R CMD javareconf -e && \
 
 # Install CoLab
 RUN conda install --quiet --yes \
-    'r-flexdashboard' \
-    'r-shinydashboard' \
-    'r-ggnewscale' \
     'r-appliedpredictivemodeling' \
     'r-broom' \
     'r-nycflights13' \
