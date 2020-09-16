@@ -107,6 +107,8 @@ USER $NB_USER
 
 # R packages
 RUN conda install --quiet --yes \
+    'r-flexdashboard' \
+    'r-shinydashboard' \
     'r-base=3.6.1' \
     'r-caret=6.0*' \
     'r-crayon=1.3*' \
@@ -159,27 +161,6 @@ RUN conda install -c plotly plotly=4.1.0 && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# install nbrsessionproxy extension
-RUN conda install -yq -c conda-forge nbrsessionproxy && \
-    conda clean -tipsy
-
-# install rstudio-server
-USER root
-RUN apt-get update && \
-    curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
-    echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
-    apt-get install -y /tmp/rstudio.deb && \
-    rm /tmp/rstudio.deb && \
-    apt-get clean
-ENV PATH=$PATH:/usr/lib/rstudio-server/bin
-
-RUN mkdir /etc/rstudio/user-settings -p
-ADD user-settings /etc/rstudio/user-settings/user-settings
-ADD config-rstudio.sh /etc/rstudio/config-rstudio.sh
-RUN fix-permissions /etc/rstudio/
-
-USER $NB_USER
-
 RUN conda install --quiet --yes -c r r-rjava r-xlsxjars r-xlsx r-venneuler r-opennlpdata
 
 ENV LD_LIBRARY_PATH=/opt/conda/lib/server
@@ -188,19 +169,8 @@ RUN R CMD javareconf -e && \
     R -e 'install.packages("openNLP", repos = "http://cran.us.r-project.org")' && \
     R -e 'install.packages("qdap", repos = "http://cran.us.r-project.org")'
 
-RUN conda install --quiet --yes -c conda-forge -c anaconda cookiecutter nodejs
-
-USER root
-COPY rstudio-launcher /opt/conda/rstudio-launcher
-RUN chown -R jovyan:users /opt/conda/rstudio-launcher
-
-USER $NB_USER
-RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
-
 # Install CoLab
 RUN conda install --quiet --yes \
-    'r-flexdashboard' \
-    'r-shinydashboard' \
     'r-appliedpredictivemodeling' \
     'r-broom' \
     'r-nycflights13' \
@@ -233,12 +203,34 @@ RUN conda install -c pdiakumis --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# RUN conda install -c ryanraaum --quiet --yes \
-#     'r-ggnewscale'  && \
-#     conda clean --all -f -y && \
-#    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-#    rm -rf /home/$NB_USER/.cache/yarn && \
-#    rm -rf /home/$NB_USER/.node-gyp && \
-#    fix-permissions $CONDA_DIR && \
-#    fix-permissions /home/$NB_USER
+# install rstudio-server
+USER root
+RUN apt-get update && \
+    curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
+    echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
+    apt-get install -y /tmp/rstudio.deb && \
+    rm /tmp/rstudio.deb && \
+    apt-get clean
+ENV PATH=$PATH:/usr/lib/rstudio-server/bin
+
+RUN mkdir /etc/rstudio/user-settings -p
+ADD user-settings /etc/rstudio/user-settings/user-settings
+ADD config-rstudio.sh /etc/rstudio/config-rstudio.sh
+RUN fix-permissions /etc/rstudio/
+
+USER $NB_USER
+
+# install jupyter-server-proxy extension
+RUN conda install -yq -c conda-forge 'jupyter-server-proxy=1.2.*' 'jupyter-rsession-proxy=1.2*' && \
+    conda clean -tipsy && \
+    jupyter labextension install @jupyterlab/server-proxy
+
+# RUN conda install --quiet --yes -c conda-forge -c anaconda cookiecutter nodejs
+
+# USER root
+# COPY rstudio-launcher /opt/conda/rstudio-launcher
+# RUN chown -R jovyan:users /opt/conda/rstudio-launcher
+
+# USER $NB_USER
+# RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
 
