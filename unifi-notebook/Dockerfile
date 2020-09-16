@@ -107,6 +107,9 @@ USER $NB_USER
 
 # R packages
 RUN conda install --quiet --yes \
+    'r-flexdashboard' \
+    'r-shinydashboard' \
+    'r-ggnewscale' \
     'r-base=3.6.1' \
     'r-caret=6.0*' \
     'r-crayon=1.3*' \
@@ -195,11 +198,13 @@ COPY rstudio-launcher /opt/conda/rstudio-launcher
 RUN chown -R jovyan:users /opt/conda/rstudio-launcher
 
 USER $NB_USER
-RUN echo "www-address=127.0.0.1" >> /etc/rstudio/rserver.conf
 RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
 
 # Install CoLab
 RUN conda install --quiet --yes \
+    'r-flexdashboard' \
+    'r-shinydashboard' \
+    'r-ggnewscale' \
     'r-appliedpredictivemodeling' \
     'r-broom' \
     'r-nycflights13' \
