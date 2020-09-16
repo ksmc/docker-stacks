@@ -107,8 +107,6 @@ USER $NB_USER
 
 # R packages
 RUN conda install --quiet --yes \
-    'r-flexdashboard' \
-    'r-shinydashboard' \
     'r-base=3.6.1' \
     'r-caret=6.0*' \
     'r-crayon=1.3*' \
@@ -203,6 +201,16 @@ RUN conda install -c pdiakumis --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+RUN conda install --quiet --yes \
+    'r-flexdashboard' \
+    'r-shinydashboard' && \
+    conda clean --all -f -y && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
 # install rstudio-server
 USER root
 RUN apt-get update && \
@@ -233,4 +241,3 @@ RUN conda install -yq -c conda-forge 'jupyter-server-proxy=1.2.*' 'jupyter-rsess
 
 # USER $NB_USER
 # RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension install .
-
