@@ -107,9 +107,6 @@ USER $NB_USER
 
 # R packages
 RUN conda install --quiet --yes \
-    'r-flexdashboard' \
-    'r-shinydashboard' \
-    'r-ggnewscale' \
     'r-base=3.6.1' \
     'r-caret=6.0*' \
     'r-crayon=1.3*' \
@@ -204,7 +201,6 @@ RUN cd /opt/conda/rstudio-launcher && jlpm install && jupyter labextension insta
 RUN conda install --quiet --yes \
     'r-flexdashboard' \
     'r-shinydashboard' \
-    'r-ggnewscale' \
     'r-appliedpredictivemodeling' \
     'r-broom' \
     'r-nycflights13' \
@@ -228,7 +224,6 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-
 RUN conda install -c pdiakumis --quiet --yes \
     'r-rock' && \
     conda clean --all -f -y && \
@@ -237,3 +232,13 @@ RUN conda install -c pdiakumis --quiet --yes \
     rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+# RUN conda install -c ryanraaum --quiet --yes \
+#     'r-ggnewscale'  && \
+#     conda clean --all -f -y && \
+#    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+#    rm -rf /home/$NB_USER/.cache/yarn && \
+#    rm -rf /home/$NB_USER/.node-gyp && \
+#    fix-permissions $CONDA_DIR && \
+#    fix-permissions /home/$NB_USER
+
