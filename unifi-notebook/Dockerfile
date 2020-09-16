@@ -194,7 +194,6 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-
 RUN conda install -c pdiakumis --quiet --yes \
     'r-rock' && \
     conda clean --all -f -y && \
