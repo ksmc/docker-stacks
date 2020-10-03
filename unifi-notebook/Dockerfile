@@ -212,6 +212,7 @@ RUN conda install --quiet --yes \
     fix-permissions /home/$NB_USER
 
 RUN conda install -c r --quiet --yes \
+    'r-opennlp' \
     'r-wordnet' && \
     conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
