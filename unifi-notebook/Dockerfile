@@ -203,7 +203,9 @@ RUN conda install -c pdiakumis --quiet --yes \
 
 RUN conda install --quiet --yes \
     'r-flexdashboard' \
-    'r-shinydashboard' && \
+    'r-shinydashboard' \
+    'r-leaflet' \
+    'r-korPus' && \
     conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
@@ -213,6 +215,7 @@ RUN conda install --quiet --yes \
 
 RUN conda install -c r --quiet --yes \
     'r-opennlp' \
+    'r-openintro' \
     'r-wordnet' && \
     conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
@@ -221,8 +224,8 @@ RUN conda install -c r --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-RUN conda install --quiet --yes \
-    'r-korPus' && \
+RUN conda install -c bolliger32 --quiet --yes \
+    'r-tigris' && \
     conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
